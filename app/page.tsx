@@ -1,10 +1,9 @@
 "use client";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Papa from "papaparse";
-import { file } from "zod/v4";
 
 export default function Home() {
   const [files, setFiles] = useState<{
@@ -15,7 +14,12 @@ export default function Home() {
     client: null,
     worker: null,
     task: null,
-  });
+  }); 
+  const inputRefs = {
+  client: useRef<HTMLInputElement>(null),
+  worker: useRef<HTMLInputElement>(null),
+  task: useRef<HTMLInputElement>(null),
+};
 
   const parseCSV = (file: File): Promise<any[]> => {
     return new Promise((resolve, reject) => {
@@ -28,11 +32,10 @@ export default function Home() {
     });
   };
 
-  const handlesubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const handlesubmit = async (e: React.FormEvent) => { 
+    e.preventDefault(); 
     const { client, worker, task } = files;
-
+ // if any file is missing then alert it 
     if (!client || !worker || !task) {
       alert("uplaod all the files pls");
       return;
@@ -44,18 +47,16 @@ export default function Home() {
         parseCSV(worker),
         parseCSV(task),
       ]);
-
-      console.log(clients, "clientdata");
-      console.log(workers, "workerdata");
-      console.log(tasks, "parsedata");
-
       alert("Your  file is uplaoded ");
-
       setFiles({
         client: null,
         worker: null,
         task: null,
-      });
+      });  
+ // make the field empty
+    if (inputRefs.client.current) inputRefs.client.current.value = "";
+    if (inputRefs.worker.current) inputRefs.worker.current.value = "";
+    if (inputRefs.task.current) inputRefs.task.current.value = "";
     } catch (error) {
       alert("something went wrong");
     }
@@ -83,7 +84,9 @@ export default function Home() {
                 Client File here
               </Label>
               <Input
-                type="file"
+                type="file" 
+                id="client" 
+                ref={inputRefs.client}
                 className="placeholder:text-white text-white"
                 onChange={(e) =>
                   setFiles((prev) => ({
@@ -100,8 +103,9 @@ export default function Home() {
                 Worker file here
               </Label>
               <Input
-                id="picture"
-                type="file"
+                id="worker"
+                type="file" 
+                ref={inputRefs.worker}
                 className=" placeholder:text-white text-white"
                 onChange={(e) =>
                   setFiles((prev) => ({
@@ -118,8 +122,9 @@ export default function Home() {
                 Task file here{" "}
               </Label>
               <Input
-                id="picture"
-                type="file"
+                id="task"
+                type="file" 
+                ref={inputRefs.task}
                 required
                 onChange={(e) =>
                   setFiles((prev) => ({
