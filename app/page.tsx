@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Papa from "papaparse";
-import { json } from "zod/v4-mini";
 
 export default function Home(){
   const [files, setFiles] = useState<{

@@ -1,0 +1,58 @@
+export function isnonemptystring(val:any):boolean{
+   return typeof val =="string" && val.trim().length > 0 ; 
+} 
+
+export function findDuplicatesIds(data: any[], key: string): number[] {
+  const mp = new Map<string, number[]>(); 
+
+  data.forEach((val,idx)=>{
+      const ids= val[key]; 
+      if(!mp.has(ids)){
+        mp.set(ids,[idx]); 
+      }else{
+        mp.get(ids)!.push(idx)  // push it to the map  of the ids map; 
+      }      
+  }); 
+
+   const duplicates: number[] = [];
+
+  mp.forEach((indexes) => {
+    if (indexes.length > 1) {
+      duplicates.push(...indexes); 
+    }
+  });
+  return duplicates;
+}
+ 
+
+export function isvalidNumber(val:any):boolean{
+    return /^-?\d+(\.\d+)?$/.test(val.trim());  // check via regex got from stack overflow no idea 
+} 
+
+export function isInrange(val:number):boolean{
+  return val >= 1 && val <= 5 ;
+} 
+
+ export function isValidCommaSeparatedString(value: any): boolean {
+  const trimmed = value.trim();
+  // Match comma-separated values with optional spaces (e.g., "T1, T2, T3")
+  const regex = /^([a-zA-Z0-9_-]+)(\s*,\s*[a-zA-Z0-9_-]+)*$/;
+
+  return regex.test(trimmed);
+} 
+
+export function isValuepresent(key:any[],val:string):boolean{  
+// split the comma operator then trim it and then fileter the " " string if available 
+ const ids=val.split(',').map(v => v.trim()).filter(i => i !==" ");  
+ const taskidset= new Set(key); 
+ return ids.some(tid => taskidset.has(tid));
+} 
+
+export function isValidJSON(str:any): boolean {
+  try {
+    JSON.parse(str);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
