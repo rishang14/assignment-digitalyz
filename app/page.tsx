@@ -4,8 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Papa from "papaparse";
+import { json } from "zod/v4-mini";
 
-export default function Home() {
+export default function Home(){
   const [files, setFiles] = useState<{
     client: File | null;
     worker: File | null;
@@ -40,7 +41,7 @@ export default function Home() {
       alert("uplaod all the files pls");
       return;
     }
-    //so now get all the file parse it and save it in localstorage for now
+ //so now get all the file parse it and save it in localstorage for now
     try {
       const [clients, workers, tasks] = await Promise.all([
         parseCSV(client),
@@ -52,7 +53,11 @@ export default function Home() {
         client: null,
         worker: null,
         task: null,
-      });  
+      });   
+// save it to localestorage 
+ localStorage.setItem("clientcsv",JSON.stringify(clients)); 
+ localStorage.setItem("workercsv",JSON.stringify(workers)); 
+ localStorage.setItem("taskcsv",JSON.stringify(tasks));
  // make the field empty
     if (inputRefs.client.current) inputRefs.client.current.value = "";
     if (inputRefs.worker.current) inputRefs.worker.current.value = "";
