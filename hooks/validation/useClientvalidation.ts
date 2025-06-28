@@ -17,8 +17,6 @@ const REQUIRED_FIELDS = [
   "RequestedTaskIDs",
   "GroupTag",
   "AttributesJSON",
-  "MissedField",
-  "Another Missed filed",
 ];
 
 // things i have to check
@@ -33,11 +31,11 @@ function useClientvalidation(
   client: any,
   tasksfile: any
 ): {
-  errors: ErrorMap;
-  globalErrors: GlobalErrors;
+  clienterrors: ErrorMap;
+  clientglobalErrors: GlobalErrors;
 } {
-  const errors: ErrorMap = {};
-  const globalErrors: GlobalErrors = {};
+  const clienterrors: ErrorMap = {};
+  const clientglobalErrors: GlobalErrors = {};
 
   // check for required field is avialble or not
   const clientheader = Object.keys(client[0] || {});
@@ -46,7 +44,7 @@ function useClientvalidation(
     (item) => !clientheader.includes(item)
   );
   if (missingHeaderFileds.length > 0) {
-    globalErrors.missingFields = missingHeaderFileds;
+    clientglobalErrors.missingFields = missingHeaderFileds;
   }
   // got all the taskids
   const taskids = tasksfile.map((item: any) => item.TaskID);  
@@ -91,11 +89,11 @@ function useClientvalidation(
 
   // if  you got any error put it inside the error tag 
      if(Object.keys(rowerror).length > 0 ){
-        errors[index] = rowerror;
+        clienterrors[index] = rowerror;
      }  
    })
 
-  return { errors, globalErrors };
+  return { clientglobalErrors, clienterrors };
 }
 
 export default useClientvalidation;
