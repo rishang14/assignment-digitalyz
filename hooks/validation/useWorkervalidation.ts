@@ -33,7 +33,11 @@ function useWokervalidation(workerfile:any):{
      // id cant be empty 
       if(!isnonemptystring(item.WorkerID)){
         rowerror.WorkerID="WorkerID should be non empty string"; 
-      } 
+      }  
+      // name 
+      if(!isnonemptystring(item.WorkerName)){
+        rowerror.WorkerName="WorkerName cant be empty"
+      }
     // id has to be unique 
     if(duplicateworkid.includes(idx)){
         rowerror.WorkerID="WorkerID should be unique"; 
