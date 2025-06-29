@@ -137,4 +137,16 @@ export function getallworkerSkill(worker: any): Set<string> {
 export function isSkillpresentInWorker(taskskill:any ,workerskill:Set<string> ):boolean{
     const skills = taskskill.split(",").map((s:any) => s.trim()).filter((s:any )=> s !== "");
   return skills.every((skill:any) => workerskill.has(skill));
-}
+} 
+
+ 
+type ErrorInfo = { row: number; column: string; message: string };
+export function convertErrorMap(errorMap: Record<number, Record<string, string>>): ErrorInfo[] {
+  return Object.entries(errorMap).flatMap(([row, cols]) =>
+    Object.entries(cols).map(([column, message]) => ({
+      row: Number(row),
+      column,
+      message,
+    }))
+  );
+} 
