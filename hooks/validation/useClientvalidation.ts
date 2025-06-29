@@ -38,10 +38,10 @@ function useClientvalidation(
   const clientglobalErrors: GlobalErrors = {};
 
   // check for required field is avialble or not
-  const clientheader = Object.keys(client[0] || {});
+  const clientheader = Object.keys(client[0] || {}).map(h => h.toLowerCase());
   //check for header
   const missingHeaderFileds = REQUIRED_FIELDS.filter(
-    (item) => !clientheader.includes(item)
+    (item) => !clientheader.includes(item.toLowerCase())
   );
   if (missingHeaderFileds.length > 0) {
     clientglobalErrors.missingFields = missingHeaderFileds;

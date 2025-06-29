@@ -16,8 +16,7 @@ const Page = () => {
   const [workerdetails, setworkerdetails] = useState([]);
   const [taskdetails, settaskdetails] = useState([]);
   const { clienterrors,clientglobalErrors } = useClientvalidation(clientdetails, taskdetails); 
-  const {taskerrors,taskglobalErrors} = useTaskvalidation(taskdetails); 
-  console.log(taskerrors)
+  const {taskerrors,taskglobalErrors} = useTaskvalidation(taskdetails,workerdetails); 
 
   useEffect(() => {
     // datas are retrived from storage
@@ -29,7 +28,7 @@ const Page = () => {
       const client = JSON.parse(clientcsv);
       const worker = JSON.parse(workercsv);
       const taskfile = JSON.parse(taskcsv);
-       console.log(taskfile,"file")
+       console.log(worker,"file")
       // set it in to the file
       setclientdetails(client);
       setworkerdetails(worker);

@@ -1,5 +1,4 @@
-import { findDuplicatesIds, isgreaterthanone, isnonemptystring, isValidCommaSeparatedString, isValidInteger, isvalidNumber } from "@/lib/helper";
-import { object } from "zod/v4";
+import { findDuplicatesIds, getallworkerSkill, isgreaterthanone, isnonemptystring, isSkillpresentInWorker, isValidCommaSeparatedString, isValidInteger, isvalidNumber } from "@/lib/helper";
 
 type ErrorMap = {
   [index: number]: {
@@ -23,7 +22,7 @@ const REQUIRED_FIELDS = [
 
 function useTaskvalidation(
   taskfile: any,
-  
+  workerdetails:any
 ): {
   taskerrors: ErrorMap;
   taskglobalErrors: GlobalErrors;
@@ -31,13 +30,15 @@ function useTaskvalidation(
    const taskerrors:ErrorMap={}; 
    const taskglobalErrors:GlobalErrors= {}   
    // check for missing task field 
-   const taskFileFiled=Object.keys(taskfile[0] || {});  
+   const taskFileFiled=Object.keys(taskfile[0] || {}).map(h => h.toLowerCase());  
    // if got some 
-   const missingFields=REQUIRED_FIELDS.filter(i => !taskFileFiled.includes(i)) 
+   const missingFields=REQUIRED_FIELDS.filter(i => !taskFileFiled.includes(i.toLowerCase())) 
    // put it in this   
    if(missingFields.length > 0){
     taskglobalErrors.missingFields=missingFields
-   }
+   } 
+   // get all worker skill and sotre in set 
+   const workerskill  =getallworkerSkill(workerdetails); 
    // find duplicated taskid 
    const duplicatesTaskId= findDuplicatesIds(taskfile,"TaskID")
 
@@ -64,6 +65,11 @@ function useTaskvalidation(
      // required slills 
      if(!isnonemptystring(item.RequiredSkills) &&  !isValidCommaSeparatedString(item.RequiredSkills)){
        rowerror.RequiredSkills= "Required skills cant be empty or non valid string "
+     }else if(isnonemptystring(item.RequiredSkills) && !isValidCommaSeparatedString(item.RequiredSkills)){ 
+      // check for worker skill
+        if(!isSkillpresentInWorker(item.RequiredSkills,workerskill)){
+          rowerror.RequiredSkills="No kworker found with this skill";
+        }
      } 
 
      //  TaskName 
