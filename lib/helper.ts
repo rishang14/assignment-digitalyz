@@ -39,7 +39,7 @@ export function isValidCommaSeparatedString(value: any): boolean {
   return value
     .split(",")
     .map(v => v.trim())
-    .every(v => /^[a-zA-Z0-9_-]+$/.test(v));
+    .every(v =>/^[a-zA-Z0-9_\/-]+$/.test(v));
 }
 
 export function isValuepresent(key: any[], val: string): boolean {
@@ -52,14 +52,17 @@ export function isValuepresent(key: any[], val: string): boolean {
   return ids.some((tid) => taskidset.has(tid));
 }
 
-export function isValidJSON(str: any): boolean {
+export function isValidJSON(value: any): boolean {
+  if (typeof value !== "string") return false;
+
   try {
-    JSON.parse(str);
+    JSON.parse(value);
     return true;
-  } catch (e) {
+  } catch {
     return false;
   }
 }
+
 
 export function isPreferredPhasesFormatValid(input: any): boolean {
   // Case 1: "1 - 3" format
@@ -93,8 +96,12 @@ export function isgreaterthanone(val: any): boolean {
 }
 
 export function isValidInteger(value: any): boolean {
-  return /^-?\d+$/.test(value.trim());
+  if (value === null || value === undefined) return false;
+
+  const str = String(value).trim();
+  return /^-?\d+$/.test(str);
 }
+
 
 export function isValidPhaseArrayString(value: any): boolean {
   if (typeof value !== "string") return false;

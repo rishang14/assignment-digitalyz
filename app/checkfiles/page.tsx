@@ -1,6 +1,7 @@
 "use client";
 import useClientvalidation from "@/hooks/validation/useClientvalidation"; 
 import useTaskvalidation from "@/hooks/validation/useTaskvalidation";
+import useWokervalidation from "@/hooks/validation/useWorkervalidation";
 import React, { useEffect, useState } from "react";
 // got the client workers and task details add validation and show it in a table thats it
 //steps follow   start with client creast a func or  custom hook  that return all the error via mapping with idx onl bcz even client id can be "
@@ -16,7 +17,15 @@ const Page = () => {
   const [workerdetails, setworkerdetails] = useState([]);
   const [taskdetails, settaskdetails] = useState([]);
   const { clienterrors,clientglobalErrors } = useClientvalidation(clientdetails, taskdetails); 
-  const {taskerrors,taskglobalErrors} = useTaskvalidation(taskdetails,workerdetails); 
+  const {taskerrors,taskglobalErrors} = useTaskvalidation(taskdetails,workerdetails);  
+  const {workererror,workerglobalErrors} =useWokervalidation(workerdetails);   
+  console.log(workerglobalErrors,"globalerror")
+  console.log(workerdetails,"detalisworker")
+  console.log(workererror,"workerror");  
+  console.log(taskdetails,"taskdetai")
+  console.log(taskerrors,"taskerror"); 
+  console.log(clientdetails,'client') 
+  console.log(clienterrors,"clienterrors");
 
   useEffect(() => {
     // datas are retrived from storage

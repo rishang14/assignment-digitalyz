@@ -56,6 +56,11 @@ function useWokervalidation(workerfile:any):{
         rowerror.AvailableSlots="AvailableSlots should be valid phrase string "
     }
     
+
+     if(Object.keys(rowerror).length > 0 ){
+        workererror[idx]=rowerror;
+     }
+
     })
 
     return {workererror,workerglobalErrors};
