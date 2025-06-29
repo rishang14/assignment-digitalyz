@@ -56,3 +56,41 @@ export function isValidJSON(str:any): boolean {
     return false;
   }
 }
+
+export function isPreferredPhasesFormatValid(input: any): boolean {
+  // Case 1: "1 - 3" format
+  if (typeof input === "string") {
+    const rangeRegex = /^\s*\d+\s*-\s*\d+\s*$/;
+    if (rangeRegex.test(input)) {
+      const [start, end] = input.split("-").map(v => parseInt(v.trim(), 10));
+      return start <= end;
+    }
+
+    // Case 2: "[1,2,3]" format (JSON array of integers)
+    try {
+      const parsed = JSON.parse(input);
+      if (
+        Array.isArray(parsed) &&
+        parsed.every(val => Number.isInteger(val))
+      ) {
+        return true;
+      }
+    } catch (e) {
+      return false; // Not valid JSON
+    }
+  }
+
+  // Not a valid string format
+  return false;
+}
+
+
+export function isgreaterthanone(val:any):boolean{
+ 
+  return  val >=1  ;
+
+}  
+
+export function isValidInteger(value: any): boolean {
+  return /^-?\d+$/.test(value.trim());
+}
