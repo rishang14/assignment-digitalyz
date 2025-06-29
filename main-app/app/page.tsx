@@ -1,10 +1,10 @@
 "use client";
 import { useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Papa from "papaparse";
-import { useRouter } from "next/router";
 
 export default function Home(){
   const [files, setFiles] = useState<{
@@ -16,12 +16,12 @@ export default function Home(){
     worker: null,
     task: null,
   });  
-  const router=useRouter()
   const inputRefs = {
-  client: useRef<HTMLInputElement>(null),
-  worker: useRef<HTMLInputElement>(null),
-  task: useRef<HTMLInputElement>(null),
-};
+    client: useRef<HTMLInputElement>(null),
+    worker: useRef<HTMLInputElement>(null),
+    task: useRef<HTMLInputElement>(null),
+  };
+  const router=useRouter();
 
   const parseCSV = (file: File): Promise<any[]> => {
     return new Promise((resolve, reject) => {
