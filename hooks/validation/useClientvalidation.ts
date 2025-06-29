@@ -61,6 +61,10 @@ function useClientvalidation(
      if(duplicatesclientidx.includes(index)){
         rowerror.ClientID="Duplicate client Id found"; 
      }  
+     // clientName 
+     if(!isnonemptystring(item.ClientName)){
+      rowerror.ClientName="ClientName cant be empty"
+     }
 
      // priority level check 
      if(!isvalidNumber(item?.PriorityLevel)){

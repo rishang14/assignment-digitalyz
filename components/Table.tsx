@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from "react"; 
+import React, { useMemo, useState } from "react"; 
 import { Table, TableBody,TableHeader,TableRow, TableHead , TableCell } from "./ui/table"; 
 import { TooltipProvider,Tooltip,TooltipContent,TooltipTrigger } from "./ui/tooltip";
 import { Input } from "./ui/input";
@@ -22,12 +22,26 @@ const ReusableTable = ({
   } 
 
  
-// conveted the error map into this 
-const errorInfo=convertErrorMap(tableerror); 
+// conveted the error map into this  and wrap it inside memo so it doesnt has to create again and again unless it change
+const errorInfo = useMemo(() => convertErrorMap(tableerror), [tableerror]);
 
 const hasError = (row: number, column: string): boolean =>{
   return  errorInfo.some((e) => e.row === row && e.column === column);
 }
+
+    const handlesave = (e: React.ChangeEvent<HTMLInputElement>, key: string, rowIndex: number) => { 
+        // spread all the data 
+  const updated = [...tabledata]; 
+  //updated with new one 
+  updated[rowIndex][key] = e.target.value;
+  // Save updated data
+  setTabledata(updated); 
+  //save it to localstoreage again
+  localStorage.setItem(localestoragekey, JSON.stringify(updated));
+  
+};
+
+    
 
 const getError = (row: number, column: string): string => {
   const err = errorInfo.find((e) => e.row === row && e.column === column);
@@ -82,11 +96,7 @@ const getError = (row: number, column: string): string => {
                 <Input
                   value={data[key] || ""}
                   onChange={(e) =>
-                    setTabledata((prev: any[]) => {
-                      const copy = [...prev];
-                      copy[index][key] = e.target.value;
-                      return copy;
-                    })
+                    handlesave(e,key,index) 
                   }
                   className={`h-8 ${
                     hasError(index, key) ? "border-red-500 bg-red-50" : ""
