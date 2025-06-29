@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Papa from "papaparse";
+import { useRouter } from "next/router";
 
 export default function Home(){
   const [files, setFiles] = useState<{
@@ -14,7 +15,8 @@ export default function Home(){
     client: null,
     worker: null,
     task: null,
-  }); 
+  });  
+  const router=useRouter()
   const inputRefs = {
   client: useRef<HTMLInputElement>(null),
   worker: useRef<HTMLInputElement>(null),
@@ -63,7 +65,9 @@ export default function Home(){
     if (inputRefs.task.current) inputRefs.task.current.value = "";
     } catch (error) {
       alert("something went wrong");
-    }
+    } 
+
+    router.push("/checkfiles");
   };
 
   return (
