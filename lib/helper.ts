@@ -1,4 +1,4 @@
-import { any } from "zod/v4";
+
 
 export function isnonemptystring(val: any): boolean {
   return typeof val == "string" && val.trim().length > 0;
@@ -35,11 +35,11 @@ export function isInrange(val: number): boolean {
 }
 
 export function isValidCommaSeparatedString(value: any): boolean {
-  const trimmed = value.trim();
-  // Match comma-separated values with optional spaces (e.g., "T1, T2, T3")
-  const regex = /^([a-zA-Z0-9_-]+)(\s*,\s*[a-zA-Z0-9_-]+)*$/;
-
-  return regex.test(trimmed);
+   if (typeof value !== "string" || !value.trim()) return false;
+  return value
+    .split(",")
+    .map(v => v.trim())
+    .every(v => /^[a-zA-Z0-9_-]+$/.test(v));
 }
 
 export function isValuepresent(key: any[], val: string): boolean {

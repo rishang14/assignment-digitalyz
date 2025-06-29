@@ -63,9 +63,9 @@ function useTaskvalidation(
      } 
      
      // required slills 
-     if(!isnonemptystring(item.RequiredSkills) &&  !isValidCommaSeparatedString(item.RequiredSkills)){
+     if(!(isnonemptystring(item.RequiredSkills) && isValidCommaSeparatedString(item.RequiredSkills))){
        rowerror.RequiredSkills= "Required skills cant be empty or non valid string "
-     }else if(isnonemptystring(item.RequiredSkills) && !isValidCommaSeparatedString(item.RequiredSkills)){ 
+     }else if(isnonemptystring(item.RequiredSkills) && isValidCommaSeparatedString(item.RequiredSkills)){ 
       // check for worker skill
         if(!isSkillpresentInWorker(item.RequiredSkills,workerskill)){
           rowerror.RequiredSkills="No kworker found with this skill";

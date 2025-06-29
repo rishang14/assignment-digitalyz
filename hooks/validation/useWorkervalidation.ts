@@ -39,8 +39,8 @@ function useWokervalidation(workerfile:any):{
         rowerror.WorkerID="WorkerID should be unique"; 
     } 
     // Skills 
-    if(!isnonemptystring(item.Skills) && !isValidCommaSeparatedString(item.Skills)){
-        rowerror.skills="Skills should be non valid comma separated ";
+    if(!(isnonemptystring(item.Skills) && isValidCommaSeparatedString(item.Skills))){
+        rowerror.Skills="Skills should be non valid comma separated ";
     } 
 
     // WorkerGroup 

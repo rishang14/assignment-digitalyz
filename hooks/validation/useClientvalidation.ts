@@ -71,7 +71,7 @@ function useClientvalidation(
         }
      }
     // taskid    
-     if(!isnonemptystring(item?.RequestedTaskIDs) && !isValidCommaSeparatedString(item.RequestedTaskIDs)){
+     if(!(isnonemptystring(item?.RequestedTaskIDs) && isValidCommaSeparatedString(item.RequestedTaskIDs))){
          rowerror.RequestedTaskIDs= "Correct the format or type of Takids";
      }else if(!isValuepresent(taskids,item?.RequestedTaskIDs)){
         rowerror.RequestedTaskIDs="No Task with this id is present"
